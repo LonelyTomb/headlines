@@ -1,0 +1,27 @@
+@import "~uikit/src/scss/variables-theme.scss";
+@import "~uikit/src/scss/mixins-theme.scss";
+@import "~uikit/src/scss/uikit-theme.scss";
+
+.main-wrapper {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  background: {
+    color: grey;
+  }
+;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+h1 {
+  text-align: center;
+}
+
+//footer > div{
+//  padding:{
+//    top:
+//  }
+//}
