@@ -45,9 +45,9 @@
 
   import Dexie from 'dexie';
 
-  // const NewsAPI = require('newsapi');
+  const NewsAPI = require('newsapi');
 
-  // const newsapi = new NewsAPI('a346c460a81947d6913e56e30d2ca3b7');
+  const newsapi = new NewsAPI('a346c460a81947d6913e56e30d2ca3b7');
   const db = new Dexie('hd');
   export default {
     name: 'home',
@@ -60,17 +60,26 @@
     },
     methods: {},
     created() {
-      // newsapi.v2.topHeadlines({
-      //   country: 'us',
-      // }).then((data) => {
-      //   this.allHeadlines = data.json;
-      // });
+    },
+    beforeMount() {
+      newsapi.v2.topHeadlines({
+        country: 'us',
+      }).then((data) => {
+        this.allHeadlines = data;
+        const dt = data.articles.map((dl) => {
+          if (dl.source.id === null) {
+            dl.source.id = dl.source.name;// eslint-disable-line
+          }
+          return dl;
+        });
+        console.log(dt);
+        console.log(data);
+        dt.forEach((dl) => {
+          db.friends.put(dl);
+        });
+      });
     },
     mounted() {
-      fetch('https://newsapi.org/v2/top-headlines?country=us&apiKey=a346c460a81947d6913e56e30d2ca3b7').then(data => data.json()).then((val) => {
-        this.allHeadlines = val;
-        console.log(val);
-      });
       db.version(1).stores({
         friends: 'id',
       });
