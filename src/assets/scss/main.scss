@@ -16,6 +16,14 @@ main {
   flex: 1 0 auto;
 }
 
+.source-wrapper {
+  display: flex;
+  flex-direction: column;
+  & > .uk-card-body {
+    flex: 1 0 auto;
+  }
+}
+
 h1 {
   text-align: center;
 }

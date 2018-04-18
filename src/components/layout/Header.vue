@@ -1,5 +1,5 @@
 <template>
-  <header>
+  <header uk-sticky="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky">
     <app-nav></app-nav>
   </header>
 </template>
