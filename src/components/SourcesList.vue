@@ -17,12 +17,12 @@
                 <h3 class="uk-text-center uk-card-title">{{ source.name }}</h3>
               </div>
               <div class="uk-card-body">
-                <!--<span class="uk-card-badge uk-label">{{ source.country }}</span>-->
+                <span class="uk-card-badge uk-label">{{ source.country }}</span>
                 <p>{{ source.description }}</p>
 
               </div>
               <div class="uk-card-footer">
-                <a href="">View headlines</a>
+                <router-link :to="{name:'sources-id',params:{id:source.id}}">View headlines</router-link>
               </div>
             </div>
           </div>
@@ -34,10 +34,11 @@
 </template>
 
 <script>
-  import Dexie from 'dexie';
-  import newsapi from './../assets/js/newsApi';
 
-  const db = new Dexie('hd');
+  //  NewsApi config file
+  import newsapi from './../assets/js/newsApi';
+  //  Instantiate headlines database
+  import db from './../assets/js/dexie';
 
   export default {
     name: 'sources',
@@ -49,22 +50,24 @@
       };
     },
     beforeMount() {
+      //  Get NewsApi data
       newsapi.v2.sources({
         language: this.language,
         country: this.country,
       }).then((data) => {
         this.sources = data.sources;
+        //  Store data gotten in indexedDb
         data.sources.forEach((val) => {
           db.sources.put(val);
+        });
+      }).catch(() => {
+        //  If offline, get Data from indexedDb
+        db.sources.toArray().then((val) => {
+          this.sources = val;
         });
       });
     },
     mounted() {
-      db.version(1).stores({
-        headlinesHome: '++id',
-        sources: '++id',
-        allHeadlines: '++id',
-      });
     },
     methods: {},
   }

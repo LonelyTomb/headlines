@@ -12,7 +12,7 @@
         allHeadlines: [], > li > .uk-card">
               <li v-if="allHeadlines.length === 0"></li>
               <li v-for="hd in allHeadlines">
-                <div class="uk-card uk-card-default uk-card-hover">
+                <div class="uk-card uk-card-default uk-card-hover source-wrapper">
                   <div class="uk-card-media-top">
                     <img class="uk-responsive-width" :src="hd.urlToImage" alt="">
                   </div>
@@ -49,11 +49,11 @@
 </template>
 
 <script>
-
-  import Dexie from 'dexie';
+  //  NewsApi config file
   import newsapi from './../assets/js/newsApi';
+  // instantiate indexedDb
+  import db from './../assets/js/dexie';
 
-  const db = new Dexie('hd');
   export default {
     name: 'home',
     data() {
@@ -67,27 +67,25 @@
         country: 'us',
       }).then((data) => {
         this.allHeadlines = data.articles;
+
         const dt = data.articles.map((dl) => {
           if (dl.source.id === null) {
             dl.source.id = dl.source.name;// eslint-disable-line
           }
           return dl;
         });
+        //  Store returned data in indexedDb for offline access
         dt.forEach((dl) => {
           db.headlinesHome.put(dl);
         });
       }).catch(() => {
+        //  If offline, get Data from indexedDb
         db.headlinesHome.toArray().then((val) => {
           this.allHeadlines = val;
         });
       });
     },
     mounted() {
-      db.version(1).stores({
-        headlinesHome: '++id',
-        sources: '++id',
-        allHeadlines: '++id',
-      });
     },
   };
 </script>
