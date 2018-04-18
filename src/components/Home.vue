@@ -8,8 +8,7 @@
           <small>Country:US</small>
           <div class="uk-position-relative uk-visible-toggle uk-dark">
             <ul class="uk-slider-items uk-child-width-1-3@s uk-grid uk-grid-medium uk-grid-margin"
-                uk-height-match="target:
-        allHeadlines: [], > li > .uk-card">
+                uk-height-match="target: > li > .uk-card">
               <li v-if="allHeadlines.length === 0"></li>
               <li v-for="hd in allHeadlines">
                 <div class="uk-card uk-card-default uk-card-hover source-wrapper">
@@ -37,7 +36,7 @@
           <ul class="uk-slider-nav uk-dotnav uk-flex-center uk-margin"></ul>
         </div>
         <div class="uk-text-right">
-          <router-link :to="{name:'sources-list'}">
+          <router-link :to="{name:'headlines-country',params:{country:'us'}}">
             <button class="uk-button uk-button-default">View All Headlines</button>
           </router-link>
 

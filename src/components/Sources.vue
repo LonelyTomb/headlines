@@ -2,7 +2,8 @@
   <div class="main-wrapper">
     <app-header></app-header>
     <main>
-      <h2 class="uk-text-center uk-heading-line"><span>Headlines from {{ headlines[0].source.name }}</span></h2>
+      <h2 class="uk-text-center uk-heading-line"><span v-if="headlines.length > 0">Headlines from {{ headlines[0].source.name }}</span>
+      </h2>
       <section class="uk-section uk-section-default">
         <div uk-grid uk-height-match="target: > div > .uk-card"
              class="uk-flex-1 uk-child-width-1-3@m uk-child-width-1-1\@s uk-grid-medium uk-flex-center uk-grid-margin">
@@ -49,29 +50,22 @@
         sources: this.source,
       }).then((data) => {
         this.headlines = data.articles;
-        console.log(data);
-        // const dt = data.articles.map((dl) => {
-        //   if (dl.source.id === null) {
-        //     dl.source.id = dl.source.name;// eslint-disable-line
-        //   }
-        //   return dl;
-        // });
-        //  Store returned data in indexedDb for offline access
-        // this.headlines.forEach((dl) => {
-        //   db.sourcesHeadlines.put(dl);
-        // });
+        //  Store the headlines with the source as id
         db.sourcesHeadlines.put(this.headlines, this.source);
       }).catch(() => {
-        //  If offline, get Data from indexedDb
-        db.sourcesHeadlines.toArray().then((val) => {
+        //  If offline, get Data from indexedDb using the source as id
+        db.sourcesHeadlines.get(this.source).then((val) => {
           this.headlines = val;
         });
       });
     },
     mounted() {
-
     },
-    methods: {},
+    methods: {
+      formatDate(date) {
+        return new Date(date);
+      },
+    },
   };
 </script>
 

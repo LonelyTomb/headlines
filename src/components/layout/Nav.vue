@@ -1,7 +1,7 @@
 <template>
   <nav class="uk-navbar-container uk-margin uk-flex" uk-navbar>
     <div class="uk-navbar-left">
-
+      <router-link :to="{name:'home'}" tag="a"></router-link>
       <a class="uk-navbar-item uk-logo" href="#">Headlines</a>
     </div>
     <div class="uk-navbar-right">
@@ -12,10 +12,10 @@
           </router-link>
         </li>
         <li>
-                  <router-link :to="{name:'sources-list'}">
-                    Sources
-                  </router-link>
-                </li>
+          <router-link :to="{name:'sources-list'}">
+            Sources
+          </router-link>
+        </li>
       </ul>
 
     </div>

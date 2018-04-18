@@ -8,7 +8,7 @@ db.version(1).stores({
   headlinesHome: '++id',
   sources: '++id',
   sourcesHeadlines: '',
-  countryHeadlines: '++id',
+  countryHeadlines: '',
   favorites: '++id',
 });
 
