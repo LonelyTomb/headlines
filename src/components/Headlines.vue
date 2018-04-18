@@ -35,6 +35,7 @@
                 </div>
                 <div class="uk-card-footer">
                   <a :href="headline.url" target="_blank">Read More...</a>
+                  <button class="uk-button uk-button-secondary uk-align-right" @click="addToFavorites(hd)">Save</button>
                 </div>
               </div>
             </div>
@@ -81,6 +82,9 @@
     mounted() {
     },
     methods: {
+      addToFavorites(headline) {
+        db.favorites.put(headline);
+      },
       ctry(ct) {
         this.country = ct;
         newsapi.v2.topHeadlines({
