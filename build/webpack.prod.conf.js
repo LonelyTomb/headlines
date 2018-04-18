@@ -108,7 +108,7 @@ const webpackConfig = merge(baseWebpackConfig, {
       cacheId: 'headlines',
       filename: 'service-worker.js',
       staticFileGlobs: ['dist/**/*.{js,html,css}'],
-      minify: true,
+      minify: true
       stripPrefix: 'dist/'
     })
   ]

@@ -79,7 +79,6 @@
       });
     },
     mounted() {
-      console.log(countries);
     },
     methods: {
       ctry(ct) {

@@ -16,6 +16,11 @@
             Sources
           </router-link>
         </li>
+        <li>
+          <router-link :to="{name:'favorites'}">
+            Favorites
+          </router-link>
+        </li>
       </ul>
 
     </div>

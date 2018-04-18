@@ -5,22 +5,24 @@
       <section class="uk-section uk-section-muted uk-margin-small-top uk-box-shadow-small uk-padding-small">
         <h2 class="uk-heading-primary uk-heading-line uk-text-center"><span>Top Headlines</span></h2>
         <div uk-slider="center: true">
-          <small>Country:US</small>
           <div class="uk-position-relative uk-visible-toggle uk-dark">
-            <ul class="uk-slider-items uk-child-width-1-3@s uk-grid uk-grid-medium uk-grid-margin"
-                uk-height-match="target: > li > .uk-card">
+            <ul uk-grid class="uk-slider-items uk-child-width-1-3@s uk-grid-medium uk-grid-margin"
+                uk-height-match="target: > li > div > .uk-card">
               <li v-if="allHeadlines.length === 0"></li>
               <li v-for="hd in allHeadlines">
-                <div class="uk-card uk-card-default uk-card-hover source-wrapper">
-                  <div class="uk-card-media-top">
-                    <img class="uk-responsive-width" :src="hd.urlToImage" alt="">
-                  </div>
-                  <div class="uk-card-body">
-                    <h3 class="uk-card-title uk-text-truncate"> {{hd.title}}</h3>
-                    <p class="uk-text-break"> {{hd.description}}</p>
-                  </div>
-                  <div class="uk-card-footer">
-                    <a :href="hd.url" target="_blank">Read More...</a>
+                <div>
+                  <div class="uk-card uk-card-default uk-card-hover source-wrapper">
+                    <div class="uk-card-media-top">
+                      <img class="uk-responsive-width" :src="hd.urlToImage" alt="">
+                    </div>
+                    <div class="uk-card-body">
+                      <h3 class="uk-card-title uk-text-truncate"> {{hd.title}}</h3>
+                      <p class="uk-text-break"> {{hd.description}}</p>
+                    </div>
+                    <div class="uk-card-footer">
+                      <a :href="hd.url" target="_blank">Open...</a>
+                      <button class="uk-button uk-button-secondary uk-align-right" @click="addToFavorites(hd)">Save</button>
+                    </div>
                   </div>
                 </div>
               </li>
@@ -60,7 +62,11 @@
         allHeadlines: {},
       };
     },
-    methods: {},
+    methods: {
+      addToFavorites(headline) {
+        db.favorites.put(headline);
+      },
+    },
     beforeMount() {
       newsapi.v2.topHeadlines({
         country: 'us',
