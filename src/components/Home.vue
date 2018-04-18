@@ -21,7 +21,8 @@
                     </div>
                     <div class="uk-card-footer">
                       <a :href="hd.url" target="_blank">Open...</a>
-                      <button class="uk-button uk-button-secondary uk-align-right" @click="addToFavorites(hd)">Save</button>
+                      <button class="uk-button uk-button-secondary uk-align-right" @click="addToFavorites(hd)">Save
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -63,6 +64,15 @@
       };
     },
     methods: {
+      cleanHeadlinesHome(limit = 30) {
+        db.headlinesHome.reverse().toArray().then((val) => {
+          val.forEach((hd, i) => {
+            if (i > limit) {
+              db.headlinesHome.delete(i);
+            }
+          });
+        });
+      },
       addToFavorites(headline) {
         db.favorites.put(headline);
       },
@@ -79,6 +89,7 @@
           }
           return dl;
         });
+        this.cleanHeadlinesHome();
         //  Store returned data in indexedDb for offline access
         dt.forEach((dl) => {
           db.headlinesHome.put(dl);
@@ -91,6 +102,7 @@
       });
     },
     mounted() {
+
     },
   };
 </script>

@@ -108,7 +108,16 @@ const webpackConfig = merge(baseWebpackConfig, {
       cacheId: 'headlines',
       filename: 'service-worker.js',
       staticFileGlobs: ['dist/**/*.{js,html,css}'],
-      minify: true
+      minify: true,
+      runtimeCaching: [
+        {
+          urlPattern: /\.jpg$/,
+          handler: 'cacheFirst',
+          options: {
+            cache: 'images'
+          }
+        }
+      ],
       stripPrefix: 'dist/'
     })
   ]
